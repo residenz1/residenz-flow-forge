@@ -35,6 +35,12 @@ import ClientPlanSummary from "./pages/client/ClientPlanSummary";
 import ClientPayment from "./pages/client/ClientPayment";
 import ClientConfirmation from "./pages/client/ClientConfirmation";
 import ClientDashboard from "./pages/client/ClientDashboard";
+import ClientVisitDetail from "./pages/client/ClientVisitDetail";
+import ClientVisitTracking from "./pages/client/ClientVisitTracking";
+import ClientVisitRating from "./pages/client/ClientVisitRating";
+import ClientVisitUpsell from "./pages/client/ClientVisitUpsell";
+import ClientSupport from "./pages/client/ClientSupport";
+import ClientSupportDetail from "./pages/client/ClientSupportDetail";
 
 const queryClient = new QueryClient();
 
@@ -75,6 +81,12 @@ const App = () => (
           <Route path="/client/payment" element={<ClientPayment />} />
           <Route path="/client/confirmation" element={<ClientConfirmation />} />
           <Route path="/client/dashboard" element={<ClientDashboard />} />
+          <Route path="/client/visit/:id" element={<ClientVisitDetail />} />
+          <Route path="/client/visit/:id/tracking" element={<ClientVisitTracking />} />
+          <Route path="/client/visit/:id/rating" element={<ClientVisitRating />} />
+          <Route path="/client/visit/:id/upsell" element={<ClientVisitUpsell />} />
+          <Route path="/client/support" element={<ClientSupport />} />
+          <Route path="/client/support/:id" element={<ClientSupportDetail />} />
           
           <Route path="*" element={<NotFound />} />
         </Routes>
