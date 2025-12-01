@@ -41,6 +41,8 @@ import ClientVisitRating from "./pages/client/ClientVisitRating";
 import ClientVisitUpsell from "./pages/client/ClientVisitUpsell";
 import ClientSupport from "./pages/client/ClientSupport";
 import ClientSupportDetail from "./pages/client/ClientSupportDetail";
+import ClientVisitReschedule from "./pages/client/ClientVisitReschedule";
+import ClientSupportNew from "./pages/client/ClientSupportNew";
 
 const queryClient = new QueryClient();
 
@@ -86,7 +88,9 @@ const App = () => (
           <Route path="/client/visit/:id/rating" element={<ClientVisitRating />} />
           <Route path="/client/visit/:id/upsell" element={<ClientVisitUpsell />} />
           <Route path="/client/support" element={<ClientSupport />} />
+          <Route path="/client/support/new" element={<ClientSupportNew />} />
           <Route path="/client/support/:id" element={<ClientSupportDetail />} />
+          <Route path="/client/visit/:id/reschedule" element={<ClientVisitReschedule />} />
           
           <Route path="*" element={<NotFound />} />
         </Routes>
