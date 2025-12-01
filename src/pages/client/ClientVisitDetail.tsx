@@ -122,6 +122,15 @@ const ClientVisitDetail = () => {
           >
             Ver Estado en Vivo
           </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full"
+            onClick={() => navigate(`/client/visit/${id}/reschedule`)}
+          >
+            <Calendar className="w-5 h-5 mr-2" />
+            Reprogramar Visita
+          </Button>
           <Button variant="outline" size="lg" className="w-full">
             <Phone className="w-5 h-5 mr-2" />
             Contactar Soporte
