@@ -19,6 +19,11 @@ import ResiBankAccount from "./pages/resi/ResiBankAccount";
 import ResiTrustCode from "./pages/resi/ResiTrustCode";
 import ResiDashboard from "./pages/resi/ResiDashboard";
 import ResiWallet from "./pages/resi/ResiWallet";
+import ResiVisitDetail from "./pages/resi/ResiVisitDetail";
+import ResiVisitCheckin from "./pages/resi/ResiVisitCheckin";
+import ResiVisitMission from "./pages/resi/ResiVisitMission";
+import ResiVisitFlag from "./pages/resi/ResiVisitFlag";
+import ResiVisitCheckout from "./pages/resi/ResiVisitCheckout";
 
 // Client pages
 import ClientRegister from "./pages/client/ClientRegister";
@@ -54,6 +59,11 @@ const App = () => (
           <Route path="/resi/trust-code" element={<ResiTrustCode />} />
           <Route path="/resi/dashboard" element={<ResiDashboard />} />
           <Route path="/resi/wallet" element={<ResiWallet />} />
+          <Route path="/resi/visit/:id" element={<ResiVisitDetail />} />
+          <Route path="/resi/visit/:id/checkin" element={<ResiVisitCheckin />} />
+          <Route path="/resi/visit/:id/mission" element={<ResiVisitMission />} />
+          <Route path="/resi/visit/:id/flag" element={<ResiVisitFlag />} />
+          <Route path="/resi/visit/:id/checkout" element={<ResiVisitCheckout />} />
           
           {/* Client Routes */}
           <Route path="/client/register" element={<ClientRegister />} />
