@@ -105,7 +105,7 @@ const ClientDashboard = () => {
 
           <div className="grid grid-cols-2 gap-3 mt-4">
             <Button variant="outline">Reprogramar</Button>
-            <Button>Ver detalles</Button>
+            <Button onClick={() => navigate("/client/visit/1")}>Ver detalles</Button>
           </div>
         </Card>
 
@@ -139,7 +139,10 @@ const ClientDashboard = () => {
             <Receipt className="w-6 h-6 mx-auto mb-2 text-primary" />
             <p className="text-xs font-medium">Facturas</p>
           </Card>
-          <Card className="p-4 text-center cursor-pointer hover:bg-muted/50 transition-colors">
+          <Card 
+            className="p-4 text-center cursor-pointer hover:bg-muted/50 transition-colors"
+            onClick={() => navigate("/client/support")}
+          >
             <HelpCircle className="w-6 h-6 mx-auto mb-2 text-primary" />
             <p className="text-xs font-medium">Ayuda</p>
           </Card>
