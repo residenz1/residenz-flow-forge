@@ -270,7 +270,7 @@ const ResiDashboard = () => {
             <Home className="w-5 h-5 mb-1 text-primary" />
             <span className="text-xs">Inicio</span>
           </Button>
-          <Button variant="ghost" className="flex-col h-auto py-2">
+          <Button variant="ghost" className="flex-col h-auto py-2" onClick={() => navigate("/resi/visit/1")}>
             <Calendar className="w-5 h-5 mb-1" />
             <span className="text-xs">Agenda</span>
           </Button>
@@ -278,7 +278,7 @@ const ResiDashboard = () => {
             <Wallet className="w-5 h-5 mb-1" />
             <span className="text-xs">Dinero</span>
           </Button>
-          <Button variant="ghost" className="flex-col h-auto py-2">
+          <Button variant="ghost" className="flex-col h-auto py-2" onClick={() => navigate("/resi/basic-info")}>
             <User className="w-5 h-5 mb-1" />
             <span className="text-xs">Perfil</span>
           </Button>
