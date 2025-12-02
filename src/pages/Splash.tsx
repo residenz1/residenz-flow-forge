@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Sparkles, Clock, Zap, Shield } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 const Splash = () => {
   const navigate = useNavigate();
@@ -17,40 +17,31 @@ const Splash = () => {
             Residenz
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground font-medium">
-            Hotel Living en 10 minutos
+            Tu talento, tu dinero, tu tiempo
           </p>
         </div>
 
-        {/* Value Props - Hotel style */}
-        <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto py-6">
-          <div className="space-y-2 text-center">
-            <div className="w-12 h-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
-              <Clock className="w-6 h-6 text-primary" />
-            </div>
-            <div className="text-sm font-medium">10 min</div>
-            <div className="text-xs text-muted-foreground">Tu Resi llega</div>
+        {/* Value Props */}
+        <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto py-8">
+          <div className="space-y-2">
+            <div className="text-3xl font-bold text-primary">D+0</div>
+            <div className="text-sm text-muted-foreground">Pagos al instante</div>
           </div>
-          <div className="space-y-2 text-center">
-            <div className="w-12 h-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
-              <Shield className="w-6 h-6 text-primary" />
-            </div>
-            <div className="text-sm font-medium">100%</div>
-            <div className="text-xs text-muted-foreground">Verificadas</div>
+          <div className="space-y-2">
+            <div className="text-3xl font-bold text-primary">100%</div>
+            <div className="text-sm text-muted-foreground">Confianza mutua</div>
           </div>
-          <div className="space-y-2 text-center">
-            <div className="w-12 h-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
-              <Zap className="w-6 h-6 text-primary" />
-            </div>
-            <div className="text-sm font-medium">D+0</div>
-            <div className="text-xs text-muted-foreground">Pagos instant</div>
+          <div className="space-y-2">
+            <div className="text-3xl font-bold text-primary">0</div>
+            <div className="text-sm text-muted-foreground">Burocracia</div>
           </div>
         </div>
 
         {/* CTAs */}
-        <div className="space-y-3 max-w-sm mx-auto">
+        <div className="space-y-4">
           <Button
             size="lg"
-            className="w-full text-lg h-14 shadow-lg"
+            className="w-full max-w-sm text-lg h-14"
             onClick={() => navigate("/onboarding")}
           >
             Comenzar
@@ -58,16 +49,16 @@ const Splash = () => {
           <Button
             variant="ghost"
             size="lg"
-            className="w-full"
+            className="w-full max-w-sm"
             onClick={() => navigate("/login")}
           >
             Ya tengo cuenta
           </Button>
         </div>
 
-        {/* Footer - Less legal */}
-        <p className="text-xs text-muted-foreground pt-4">
-          Tu hogar, impecable como suite de hotel
+        {/* Footer */}
+        <p className="text-sm text-muted-foreground pt-8">
+          Al continuar, aceptas nuestros Términos y Condiciones
         </p>
       </div>
     </div>

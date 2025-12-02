@@ -25,7 +25,7 @@ const ResiRegister = () => {
       title="Tu número de teléfono"
       subtitle="Lo usaremos para verificar tu identidad"
       currentStep={1}
-      totalSteps={4}
+      totalSteps={8}
       onBack={() => navigate("/onboarding")}
     >
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -47,12 +47,22 @@ const ResiRegister = () => {
           </div>
         </div>
 
-        <div className="p-4 bg-primary/5 rounded-lg text-sm text-muted-foreground">
-          Empieza a ganar dinero al instante. Completa tu perfil después.
+        <div className="p-4 bg-muted/50 rounded-lg text-sm text-muted-foreground">
+          Al continuar, aceptas recibir mensajes SMS de verificación. Pueden aplicar tarifas de tu operador.
         </div>
 
         <Button type="submit" size="lg" className="w-full">
           Enviar código
+        </Button>
+
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="w-full"
+          onClick={() => toast.info("Próximamente: Verificación por WhatsApp")}
+        >
+          Enviar por WhatsApp
         </Button>
       </form>
     </OnboardingLayout>
