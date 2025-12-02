@@ -26,7 +26,7 @@ const ResiBasicInfo = () => {
       return;
     }
     toast.success("Perfil creado");
-    navigate("/resi/kyc-document");
+    navigate("/resi/trust-code");
   };
 
   return (

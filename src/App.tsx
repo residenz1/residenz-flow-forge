@@ -43,6 +43,9 @@ import ClientSupport from "./pages/client/ClientSupport";
 import ClientSupportDetail from "./pages/client/ClientSupportDetail";
 import ClientVisitReschedule from "./pages/client/ClientVisitReschedule";
 import ClientSupportNew from "./pages/client/ClientSupportNew";
+import ClientFlashSelect from "./pages/client/ClientFlashSelect";
+import ClientFlashConfirm from "./pages/client/ClientFlashConfirm";
+import ClientFlashPayment from "./pages/client/ClientFlashPayment";
 
 const queryClient = new QueryClient();
 
@@ -91,6 +94,9 @@ const App = () => (
           <Route path="/client/support/new" element={<ClientSupportNew />} />
           <Route path="/client/support/:id" element={<ClientSupportDetail />} />
           <Route path="/client/visit/:id/reschedule" element={<ClientVisitReschedule />} />
+          <Route path="/client/flash-select" element={<ClientFlashSelect />} />
+          <Route path="/client/flash-confirm" element={<ClientFlashConfirm />} />
+          <Route path="/client/flash-payment" element={<ClientFlashPayment />} />
           
           <Route path="*" element={<NotFound />} />
         </Routes>

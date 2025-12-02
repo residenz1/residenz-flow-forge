@@ -11,10 +11,10 @@ const ClientSelectSize = () => {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   const sizes = [
-    { id: "studio", label: "Estudio", icon: "🛋️", description: "Hasta 30m²" },
-    { id: "1bed", label: "1 Habitación", icon: "🛏️", description: "30-60m²" },
-    { id: "2bed", label: "2 Habitaciones", icon: "🏠", description: "60-90m²" },
-    { id: "3bed", label: "3+ Habitaciones", icon: "🏡", description: "Más de 90m²" },
+    { id: "studio", label: "Estudio / 1 ambiente", icon: "🛋️", description: "Hasta 30m²" },
+    { id: "1bed", label: "1 habitación", icon: "🛏️", description: "30-60m²" },
+    { id: "2bed", label: "2 habitaciones", icon: "🏠", description: "60-90m²" },
+    { id: "3bed", label: "3 habitaciones o más", icon: "🏡", description: "Más de 90m²" },
   ];
 
   const handleContinue = () => {
