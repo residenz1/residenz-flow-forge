@@ -43,9 +43,15 @@ import ClientSupport from "./pages/client/ClientSupport";
 import ClientSupportDetail from "./pages/client/ClientSupportDetail";
 import ClientVisitReschedule from "./pages/client/ClientVisitReschedule";
 import ClientSupportNew from "./pages/client/ClientSupportNew";
+
+// Flash cleaning flow
 import ClientFlashSelect from "./pages/client/ClientFlashSelect";
-import ClientFlashConfirm from "./pages/client/ClientFlashConfirm";
+import ClientFlashPhoto from "./pages/client/ClientFlashPhoto";
+import ClientFlashAddress from "./pages/client/ClientFlashAddress";
+import ClientFlashAvailability from "./pages/client/ClientFlashAvailability";
+import ClientFlashSummary from "./pages/client/ClientFlashSummary";
 import ClientFlashPayment from "./pages/client/ClientFlashPayment";
+import ClientFlashTracking from "./pages/client/ClientFlashTracking";
 
 const queryClient = new QueryClient();
 
@@ -94,9 +100,15 @@ const App = () => (
           <Route path="/client/support/new" element={<ClientSupportNew />} />
           <Route path="/client/support/:id" element={<ClientSupportDetail />} />
           <Route path="/client/visit/:id/reschedule" element={<ClientVisitReschedule />} />
+          
+          {/* Flash Cleaning Routes */}
           <Route path="/client/flash-select" element={<ClientFlashSelect />} />
-          <Route path="/client/flash-confirm" element={<ClientFlashConfirm />} />
+          <Route path="/client/flash-photo" element={<ClientFlashPhoto />} />
+          <Route path="/client/flash-address" element={<ClientFlashAddress />} />
+          <Route path="/client/flash-availability" element={<ClientFlashAvailability />} />
+          <Route path="/client/flash-summary" element={<ClientFlashSummary />} />
           <Route path="/client/flash-payment" element={<ClientFlashPayment />} />
+          <Route path="/client/flash-tracking" element={<ClientFlashTracking />} />
           
           <Route path="*" element={<NotFound />} />
         </Routes>
