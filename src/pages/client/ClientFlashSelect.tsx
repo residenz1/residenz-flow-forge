@@ -18,9 +18,12 @@ const ClientFlashSelect = () => {
   const handleContinue = () => {
     if (selectedService) {
       const service = services.find(s => s.id === selectedService);
-      navigate("/client/flash-photo", { 
-        state: { service } 
-      });
+      if (service) {
+        // Only pass serializable data, not the icon component
+        navigate("/client/flash-photo", { 
+          state: { service: { id: service.id, name: service.name, price: service.price } } 
+        });
+      }
     }
   };
 

@@ -190,7 +190,7 @@ const ClientDashboard = () => {
           <div className="grid grid-cols-3 gap-3">
             <Card 
               className="p-4 text-center cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={() => toast.info("Ver visitas anteriores")}
+              onClick={() => navigate("/client/visit/1")}
             >
               <History className="w-6 h-6 mx-auto mb-2 text-primary" />
               <p className="text-xs font-medium">Visitas</p>
@@ -198,7 +198,7 @@ const ClientDashboard = () => {
             </Card>
             <Card 
               className="p-4 text-center cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={() => toast.info("Ver pagos")}
+              onClick={() => navigate("/client/payment")}
             >
               <Receipt className="w-6 h-6 mx-auto mb-2 text-primary" />
               <p className="text-xs font-medium">Pagos</p>
@@ -206,7 +206,7 @@ const ClientDashboard = () => {
             </Card>
             <Card 
               className="p-4 text-center cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={() => toast.info("Ver calificaciones")}
+              onClick={() => navigate("/client/visit/1/rating")}
             >
               <Star className="w-6 h-6 mx-auto mb-2 text-primary" />
               <p className="text-xs font-medium">Calificaciones</p>
@@ -242,15 +242,15 @@ const ClientDashboard = () => {
             <Home className="w-5 h-5 mb-1 text-primary" />
             <span className="text-xs">Inicio</span>
           </Button>
-          <Button variant="ghost" className="flex-col h-auto py-2">
+          <Button variant="ghost" className="flex-col h-auto py-2" onClick={() => navigate("/client/visit/1")}>
             <Calendar className="w-5 h-5 mb-1" />
             <span className="text-xs">Agenda</span>
           </Button>
-          <Button variant="ghost" className="flex-col h-auto py-2">
+          <Button variant="ghost" className="flex-col h-auto py-2" onClick={() => navigate("/client/payment")}>
             <CreditCard className="w-5 h-5 mb-1" />
             <span className="text-xs">Pagos</span>
           </Button>
-          <Button variant="ghost" className="flex-col h-auto py-2">
+          <Button variant="ghost" className="flex-col h-auto py-2" onClick={() => navigate("/client/support")}>
             <UserIcon className="w-5 h-5 mb-1" />
             <span className="text-xs">Perfil</span>
           </Button>
