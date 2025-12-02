@@ -14,6 +14,7 @@ import {
   Receipt,
   Home,
   User as UserIcon,
+  Zap,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -46,6 +47,22 @@ const ClientDashboard = () => {
       </header>
 
       <main className="max-w-7xl mx-auto p-4 space-y-6">
+        {/* Quick Flash Access */}
+        <Card 
+          className="p-4 cursor-pointer hover:shadow-md transition-shadow bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20"
+          onClick={() => navigate("/client/flash-select")}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+              <Zap className="w-5 h-5 text-primary" />
+            </div>
+            <div className="flex-1">
+              <p className="font-semibold">Limpieza rápida</p>
+              <p className="text-xs text-muted-foreground">Llegada en 10 minutos</p>
+            </div>
+          </div>
+        </Card>
+
         {/* Plan Status */}
         <Card className="p-6 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
           <div className="flex items-center justify-between mb-4">

@@ -24,9 +24,9 @@ const ResiTrustCode = () => {
     <OnboardingLayout
       title="Código de Confianza"
       subtitle="El corazón de nuestra comunidad"
-      currentStep={7}
-      totalSteps={8}
-      onBack={() => navigate("/resi/bank-account")}
+      currentStep={4}
+      totalSteps={4}
+      onBack={() => navigate("/resi/basic-info")}
     >
       <div className="space-y-6">
         <Card className="p-6 space-y-4">
