@@ -1,163 +1,107 @@
-import { useState } from "react";
-import { OnboardingLayout } from "@/components/OnboardingLayout";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
-import { useNavigate } from "react-router-dom";
-import { Shield, Lock, CheckCircle2, Sparkles } from "lucide-react";
-import { toast } from "sonner";
+import { ArrowLeft, CreditCard, Lock } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 const ClientFlashPayment = () => {
   const navigate = useNavigate();
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [formData, setFormData] = useState({
-    cardNumber: "",
-    expiry: "",
-    cvc: "",
-  });
+  const location = useLocation();
+  const { service, photo, address } = location.state || {};
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    toast.loading("Procesando pago...");
+  const handlePayment = () => {
+    setIsProcessing(true);
     setTimeout(() => {
-      toast.dismiss();
-      toast.success("¡Pago exitoso!");
-      setShowSuccess(true);
-    }, 2000);
+      navigate("/client/flash-tracking", { 
+        state: { service, photo, address } 
+      });
+    }, 1500);
   };
-
-  const formatCardNumber = (value: string) => {
-    return value
-      .replace(/\s/g, "")
-      .match(/.{1,4}/g)
-      ?.join(" ") || value;
-  };
-
-  const formatExpiry = (value: string) => {
-    const cleaned = value.replace(/\D/g, "");
-    if (cleaned.length >= 2) {
-      return cleaned.slice(0, 2) + "/" + cleaned.slice(2, 4);
-    }
-    return cleaned;
-  };
-
-  if (showSuccess) {
-    return (
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
-        <div className="text-center space-y-6 max-w-md">
-          <div className="w-20 h-20 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
-            <CheckCircle2 className="w-10 h-10 text-primary" />
-          </div>
-          
-          <div className="space-y-2">
-            <h1 className="font-sora text-2xl font-bold">¡Tu Resi está en camino!</h1>
-            <p className="text-muted-foreground">
-              Te notificaremos cuando esté en tu puerta.
-            </p>
-          </div>
-
-          <Card className="p-4 bg-primary/5 border-primary/20">
-            <div className="flex items-center gap-3">
-              <Sparkles className="w-5 h-5 text-primary" />
-              <span className="text-sm">Llegada estimada: 10 minutos</span>
-            </div>
-          </Card>
-
-          <Button
-            size="lg"
-            className="w-full"
-            onClick={() => navigate("/client/dashboard")}
-          >
-            Ir al panel
-          </Button>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <OnboardingLayout
-      title="Método de pago"
-      subtitle="Pago seguro"
-      currentStep={3}
-      totalSteps={3}
-      onBack={() => navigate("/client/flash-confirm")}
-    >
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <Card className="p-4 bg-muted/50 flex items-center gap-3">
-          <Shield className="w-5 h-5 text-primary" />
-          <div className="flex-1 text-sm">
-            <p className="font-medium">Pago seguro</p>
-            <p className="text-xs text-muted-foreground">
-              Tus datos están protegidos con encriptación SSL
-            </p>
-          </div>
-          <Lock className="w-4 h-4 text-muted-foreground" />
-        </Card>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="bg-card border-b p-4 sticky top-0 z-10">
+        <div className="flex items-center gap-3 max-w-7xl mx-auto">
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          <h1 className="font-sora text-xl font-semibold">Pago</h1>
+        </div>
+      </header>
 
-        <div className="space-y-2">
-          <Label htmlFor="cardNumber">Número de tarjeta</Label>
-          <Input
-            id="cardNumber"
-            placeholder="1234 5678 9012 3456"
-            value={formData.cardNumber}
-            onChange={(e) => {
-              const formatted = formatCardNumber(e.target.value.replace(/\s/g, ""));
-              if (formatted.replace(/\s/g, "").length <= 16) {
-                setFormData({ ...formData, cardNumber: formatted });
-              }
-            }}
-            maxLength={19}
-          />
+      <main className="max-w-7xl mx-auto p-4 space-y-6">
+        {/* Amount */}
+        <div className="text-center py-4">
+          <p className="text-sm text-muted-foreground">Total a pagar</p>
+          <p className="font-sora text-4xl font-bold">S/ {service?.price || 25}</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="expiry">Vencimiento</Label>
-            <Input
-              id="expiry"
-              placeholder="MM/AA"
-              value={formData.expiry}
-              onChange={(e) => {
-                const formatted = formatExpiry(e.target.value);
-                if (formatted.replace(/\D/g, "").length <= 4) {
-                  setFormData({ ...formData, expiry: formatted });
-                }
-              }}
-              maxLength={5}
-            />
+        {/* Card Form */}
+        <Card className="p-6 space-y-4">
+          <div className="flex items-center gap-2 mb-2">
+            <CreditCard className="w-5 h-5 text-primary" />
+            <span className="font-medium">Tarjeta de crédito o débito</span>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="cvc">CVC</Label>
-            <Input
-              id="cvc"
-              placeholder="123"
-              type="password"
-              value={formData.cvc}
-              onChange={(e) => {
-                if (e.target.value.length <= 3) {
-                  setFormData({ ...formData, cvc: e.target.value });
-                }
-              }}
-              maxLength={3}
-            />
-          </div>
-        </div>
 
-        <Card className="p-4 bg-primary/5 border-primary/20">
-          <div className="flex justify-between items-baseline">
-            <span className="text-sm">Total a cobrar:</span>
-            <span className="font-sora text-2xl font-bold">S/ 25</span>
+          <div className="space-y-2">
+            <Label htmlFor="cardNumber">Número de tarjeta</Label>
+            <Input
+              id="cardNumber"
+              placeholder="1234 5678 9012 3456"
+              defaultValue="4242 4242 4242 4242"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="expiry">Vencimiento</Label>
+              <Input
+                id="expiry"
+                placeholder="MM/AA"
+                defaultValue="12/25"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="cvv">CVV</Label>
+              <Input
+                id="cvv"
+                placeholder="123"
+                type="password"
+                maxLength={4}
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="name">Nombre en la tarjeta</Label>
+            <Input
+              id="name"
+              placeholder="Como aparece en la tarjeta"
+              defaultValue="Ana Rodriguez"
+            />
           </div>
         </Card>
 
-        <Button type="submit" size="lg" className="w-full h-14">
-          Confirmar pago de S/ 25
+        {/* Security note */}
+        <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+          <Lock className="w-4 h-4" />
+          <span>Pago seguro con encriptación SSL</span>
+        </div>
+
+        <Button 
+          className="w-full" 
+          size="lg"
+          onClick={handlePayment}
+          disabled={isProcessing}
+        >
+          {isProcessing ? "Procesando..." : `Pagar S/ ${service?.price || 25}`}
         </Button>
-      </form>
-    </OnboardingLayout>
+      </main>
+    </div>
   );
 };
 
