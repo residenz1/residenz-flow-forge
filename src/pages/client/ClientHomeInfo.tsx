@@ -3,7 +3,6 @@ import { OnboardingLayout } from "@/components/OnboardingLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
 import { MapPin } from "lucide-react";
 import { toast } from "sonner";
@@ -12,8 +11,6 @@ const ClientHomeInfo = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     address: "",
-    type: "apartment",
-    floor: "",
     reference: "",
   });
 
@@ -53,36 +50,6 @@ const ClientHomeInfo = () => {
             Incluye número, calle y distrito
           </p>
         </div>
-
-        <div className="space-y-2">
-          <Label>Tipo de vivienda</Label>
-          <Select
-            value={formData.type}
-            onValueChange={(value) => setFormData({ ...formData, type: value })}
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="apartment">Departamento</SelectItem>
-              <SelectItem value="house">Casa</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {formData.type === "apartment" && (
-          <div className="space-y-2">
-            <Label htmlFor="floor">Piso / Torre</Label>
-            <Input
-              id="floor"
-              value={formData.floor}
-              onChange={(e) =>
-                setFormData({ ...formData, floor: e.target.value })
-              }
-              placeholder="Ej: Piso 5, Torre B"
-            />
-          </div>
-        )}
 
         <div className="space-y-2">
           <Label htmlFor="reference">Referencia (opcional)</Label>
