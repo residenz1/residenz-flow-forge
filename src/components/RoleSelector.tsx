@@ -31,26 +31,16 @@ export const RoleSelector = ({ onSelectRole }: RoleSelectorProps) => {
         </div>
         <h3 className="font-sora text-2xl mb-3">Necesito limpieza</h3>
         <p className="text-muted-foreground mb-6">
-          Planes mensuales simples. Misma Resi de confianza siempre.
+          Servicio rápido y confiable. Tu Resi llega en minutos.
         </p>
-        <div className="space-y-3">
-          <Button 
-            size="lg" 
-            className="w-full"
-            onClick={() => navigate("/client/flash-select")}
-          >
-            <Zap className="w-4 h-4 mr-2" />
-            Limpieza rápida (10 minutos)
-          </Button>
-          <Button 
-            size="lg" 
-            className="w-full" 
-            variant="outline"
-            onClick={() => onSelectRole("client")}
-          >
-            Contratar servicio
-          </Button>
-        </div>
+        <Button 
+          size="lg" 
+          className="w-full"
+          onClick={() => navigate("/client/flash-select")}
+        >
+          <Zap className="w-4 h-4 mr-2" />
+          Contratar servicio rápido en 10 minutos
+        </Button>
       </Card>
     </div>
   );
