@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -20,12 +21,43 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import NotificationsModal from "@/components/NotificationsModal";
+import SideDrawerMenu from "@/components/SideDrawerMenu";
+import ComingSoonModal from "@/components/ComingSoonModal";
 
 const ClientDashboard = () => {
   const navigate = useNavigate();
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [comingSoonOpen, setComingSoonOpen] = useState(false);
+  const [comingSoonFeature, setComingSoonFeature] = useState("");
+
+  const handleComingSoon = (feature: string) => {
+    setComingSoonFeature(feature);
+    setComingSoonOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-background pb-20">
+      {/* Modals */}
+      <NotificationsModal 
+        open={notificationsOpen} 
+        onOpenChange={setNotificationsOpen}
+        userType="client"
+      />
+      <SideDrawerMenu 
+        open={menuOpen} 
+        onOpenChange={setMenuOpen}
+        userType="client"
+        userName="Ana Rodríguez"
+        userInitials="AR"
+      />
+      <ComingSoonModal 
+        open={comingSoonOpen} 
+        onOpenChange={setComingSoonOpen}
+        featureName={comingSoonFeature}
+      />
+
       {/* Header */}
       <header className="bg-card border-b p-4 sticky top-0 z-10">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
@@ -39,10 +71,20 @@ const ClientDashboard = () => {
             </div>
           </div>
           <div className="flex gap-2">
-            <Button variant="ghost" size="icon">
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="relative"
+              onClick={() => setNotificationsOpen(true)}
+            >
               <Bell className="w-5 h-5" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full" />
             </Button>
-            <Button variant="ghost" size="icon">
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => setMenuOpen(true)}
+            >
               <Menu className="w-5 h-5" />
             </Button>
           </div>
@@ -52,7 +94,7 @@ const ClientDashboard = () => {
       <main className="max-w-7xl mx-auto p-4 space-y-6">
         {/* Section B: Limpieza rápida (Flash) - Destacada arriba */}
         <Card 
-          className="p-5 cursor-pointer hover:shadow-md transition-shadow bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20"
+          className="p-5 cursor-pointer hover:shadow-md transition-all duration-200 bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20 active:scale-[0.98]"
           onClick={() => navigate("/client/flash-select")}
         >
           <div className="flex items-center gap-4">
@@ -78,7 +120,10 @@ const ClientDashboard = () => {
               <span className="text-sm font-medium">En 2 días</span>
             </div>
 
-            <div className="flex items-center gap-3 mb-4">
+            <div 
+              className="flex items-center gap-3 mb-4 cursor-pointer hover:bg-muted/30 -mx-2 px-2 py-2 rounded-lg transition-colors"
+              onClick={() => navigate("/client/visit/1")}
+            >
               <Avatar>
                 <AvatarFallback>MG</AvatarFallback>
               </Avatar>
@@ -89,6 +134,7 @@ const ClientDashboard = () => {
                   <span>4.9 · Tu Resi habitual</span>
                 </div>
               </div>
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
             </div>
 
             <div className="space-y-2 mb-4">
@@ -113,7 +159,10 @@ const ClientDashboard = () => {
               <Button 
                 variant="outline" 
                 className="flex-1 text-destructive hover:text-destructive"
-                onClick={() => toast.info("Cancelando visita...")}
+                onClick={() => {
+                  toast.info("Procesando cancelación...");
+                  setTimeout(() => toast.success("Visita cancelada correctamente"), 1500);
+                }}
               >
                 Cancelar
               </Button>
@@ -125,7 +174,11 @@ const ClientDashboard = () => {
         <section className="space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-lg">Mi hogar</h3>
-            <Button variant="ghost" size="sm" onClick={() => navigate("/client/home-info")}>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => handleComingSoon("Editar hogar")}
+            >
               <Edit className="w-4 h-4 mr-1" />
               Editar
             </Button>
@@ -160,7 +213,10 @@ const ClientDashboard = () => {
         {/* Section E: Mi suscripción */}
         <section className="space-y-3">
           <h3 className="font-semibold text-lg">Mi suscripción</h3>
-          <Card className="p-4 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+          <Card 
+            className="p-4 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 cursor-pointer hover:shadow-md transition-all duration-200"
+            onClick={() => handleComingSoon("Gestionar suscripción")}
+          >
             <div className="flex items-center justify-between mb-3">
               <Badge variant="secondary" className="bg-success/20 text-success">
                 Plan Activo
@@ -189,7 +245,7 @@ const ClientDashboard = () => {
           <h3 className="font-semibold text-lg">Historial</h3>
           <div className="grid grid-cols-3 gap-3">
             <Card 
-              className="p-4 text-center cursor-pointer hover:bg-muted/50 transition-colors"
+              className="p-4 text-center cursor-pointer hover:bg-muted/50 hover:shadow-sm transition-all duration-200 active:scale-[0.98]"
               onClick={() => navigate("/client/visit/1")}
             >
               <History className="w-6 h-6 mx-auto mb-2 text-primary" />
@@ -197,15 +253,15 @@ const ClientDashboard = () => {
               <p className="text-xs text-muted-foreground">12 completadas</p>
             </Card>
             <Card 
-              className="p-4 text-center cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={() => navigate("/client/payment")}
+              className="p-4 text-center cursor-pointer hover:bg-muted/50 hover:shadow-sm transition-all duration-200 active:scale-[0.98]"
+              onClick={() => handleComingSoon("Historial de pagos")}
             >
               <Receipt className="w-6 h-6 mx-auto mb-2 text-primary" />
               <p className="text-xs font-medium">Pagos</p>
               <p className="text-xs text-muted-foreground">Ver facturas</p>
             </Card>
             <Card 
-              className="p-4 text-center cursor-pointer hover:bg-muted/50 transition-colors"
+              className="p-4 text-center cursor-pointer hover:bg-muted/50 hover:shadow-sm transition-all duration-200 active:scale-[0.98]"
               onClick={() => navigate("/client/visit/1/rating")}
             >
               <Star className="w-6 h-6 mx-auto mb-2 text-primary" />
@@ -217,7 +273,7 @@ const ClientDashboard = () => {
 
         {/* Soporte rápido */}
         <Card 
-          className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
+          className="p-4 cursor-pointer hover:bg-muted/50 hover:shadow-sm transition-all duration-200 active:scale-[0.98]"
           onClick={() => navigate("/client/support")}
         >
           <div className="flex items-center justify-between">
@@ -238,19 +294,35 @@ const ClientDashboard = () => {
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-card border-t p-2">
         <div className="max-w-7xl mx-auto grid grid-cols-4 gap-1">
-          <Button variant="ghost" className="flex-col h-auto py-2" onClick={() => navigate("/client/dashboard")}>
+          <Button 
+            variant="ghost" 
+            className="flex-col h-auto py-2 hover:bg-primary/10 transition-colors" 
+            onClick={() => navigate("/client/dashboard")}
+          >
             <Home className="w-5 h-5 mb-1 text-primary" />
-            <span className="text-xs">Inicio</span>
+            <span className="text-xs font-medium">Inicio</span>
           </Button>
-          <Button variant="ghost" className="flex-col h-auto py-2" onClick={() => navigate("/client/visit/1")}>
+          <Button 
+            variant="ghost" 
+            className="flex-col h-auto py-2 hover:bg-primary/10 transition-colors" 
+            onClick={() => navigate("/client/visit/1")}
+          >
             <Calendar className="w-5 h-5 mb-1" />
             <span className="text-xs">Agenda</span>
           </Button>
-          <Button variant="ghost" className="flex-col h-auto py-2" onClick={() => navigate("/client/payment")}>
+          <Button 
+            variant="ghost" 
+            className="flex-col h-auto py-2 hover:bg-primary/10 transition-colors" 
+            onClick={() => handleComingSoon("Pagos")}
+          >
             <CreditCard className="w-5 h-5 mb-1" />
             <span className="text-xs">Pagos</span>
           </Button>
-          <Button variant="ghost" className="flex-col h-auto py-2" onClick={() => navigate("/client/support")}>
+          <Button 
+            variant="ghost" 
+            className="flex-col h-auto py-2 hover:bg-primary/10 transition-colors" 
+            onClick={() => navigate("/client/support")}
+          >
             <UserIcon className="w-5 h-5 mb-1" />
             <span className="text-xs">Perfil</span>
           </Button>

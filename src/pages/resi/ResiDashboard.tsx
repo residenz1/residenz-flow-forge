@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -20,12 +21,25 @@ import {
   ChevronRight,
   CheckCircle,
   AlertCircle,
+  Share2,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import NotificationsModal from "@/components/NotificationsModal";
+import SideDrawerMenu from "@/components/SideDrawerMenu";
+import ComingSoonModal from "@/components/ComingSoonModal";
 
 const ResiDashboard = () => {
   const navigate = useNavigate();
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [comingSoonOpen, setComingSoonOpen] = useState(false);
+  const [comingSoonFeature, setComingSoonFeature] = useState("");
+
+  const handleComingSoon = (feature: string) => {
+    setComingSoonFeature(feature);
+    setComingSoonOpen(true);
+  };
 
   const nextVisit = {
     id: 1,
@@ -38,8 +52,32 @@ const ResiDashboard = () => {
     amount: 30,
   };
 
+  const handleShareCode = () => {
+    navigator.clipboard.writeText("MARIA2024");
+    toast.success("Código copiado al portapapeles");
+  };
+
   return (
     <div className="min-h-screen bg-background pb-20">
+      {/* Modals */}
+      <NotificationsModal 
+        open={notificationsOpen} 
+        onOpenChange={setNotificationsOpen}
+        userType="resi"
+      />
+      <SideDrawerMenu 
+        open={menuOpen} 
+        onOpenChange={setMenuOpen}
+        userType="resi"
+        userName="María García"
+        userInitials="MG"
+      />
+      <ComingSoonModal 
+        open={comingSoonOpen} 
+        onOpenChange={setComingSoonOpen}
+        featureName={comingSoonFeature}
+      />
+
       {/* Header */}
       <header className="bg-card border-b p-4 sticky top-0 z-10">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
@@ -53,10 +91,20 @@ const ResiDashboard = () => {
             </div>
           </div>
           <div className="flex gap-2">
-            <Button variant="ghost" size="icon">
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="relative"
+              onClick={() => setNotificationsOpen(true)}
+            >
               <Bell className="w-5 h-5" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full" />
             </Button>
-            <Button variant="ghost" size="icon">
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => setMenuOpen(true)}
+            >
               <Menu className="w-5 h-5" />
             </Button>
           </div>
@@ -102,7 +150,10 @@ const ResiDashboard = () => {
               <div className="flex gap-2">
                 <Button
                   variant="outline"
-                  onClick={() => toast.info("Abriendo mapa...")}
+                  onClick={() => {
+                    toast.info("Abriendo mapa...");
+                    setTimeout(() => toast.success("Ruta iniciada en Google Maps"), 1000);
+                  }}
                 >
                   <Navigation className="w-4 h-4 mr-2" />
                   Iniciar ruta
@@ -132,7 +183,7 @@ const ResiDashboard = () => {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <Card
-              className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
+              className="p-4 cursor-pointer hover:bg-muted/50 hover:shadow-sm transition-all duration-200 active:scale-[0.98]"
               onClick={() => navigate("/resi/wallet")}
             >
               <div className="flex items-center gap-3">
@@ -144,7 +195,7 @@ const ResiDashboard = () => {
               </div>
             </Card>
             <Card
-              className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
+              className="p-4 cursor-pointer hover:bg-muted/50 hover:shadow-sm transition-all duration-200 active:scale-[0.98]"
               onClick={() => navigate("/resi/wallet")}
             >
               <div className="flex items-center gap-3">
@@ -223,7 +274,11 @@ const ResiDashboard = () => {
                 <p className="text-xs text-muted-foreground mt-1">— Ana R., hace 2 días</p>
               </div>
             </div>
-            <Button variant="link" className="p-0 h-auto mt-2">
+            <Button 
+              variant="link" 
+              className="p-0 h-auto mt-2"
+              onClick={() => handleComingSoon("Ver comentarios")}
+            >
               Ver todos los comentarios
             </Button>
           </Card>
@@ -236,7 +291,14 @@ const ResiDashboard = () => {
                   <p className="text-xs text-muted-foreground">MARIA2024</p>
                 </div>
               </div>
-              <Button variant="outline" size="sm">Compartir</Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={handleShareCode}
+              >
+                <Share2 className="w-4 h-4 mr-1" />
+                Compartir
+              </Button>
             </div>
           </Card>
         </section>
@@ -246,15 +308,15 @@ const ResiDashboard = () => {
           <h3 className="font-semibold text-lg">Centro de soporte</h3>
           <div className="grid grid-cols-2 gap-3">
             <Card
-              className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={() => toast.info("Abriendo preguntas frecuentes...")}
+              className="p-4 cursor-pointer hover:bg-muted/50 hover:shadow-sm transition-all duration-200 active:scale-[0.98]"
+              onClick={() => handleComingSoon("Preguntas frecuentes")}
             >
               <HelpCircle className="w-6 h-6 text-primary mb-2" />
               <p className="font-medium text-sm">Preguntas frecuentes</p>
             </Card>
             <Card
-              className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={() => toast.info("Abriendo chat de soporte...")}
+              className="p-4 cursor-pointer hover:bg-muted/50 hover:shadow-sm transition-all duration-200 active:scale-[0.98]"
+              onClick={() => handleComingSoon("Chat de soporte")}
             >
               <MessageCircle className="w-6 h-6 text-primary mb-2" />
               <p className="font-medium text-sm">Chat de soporte</p>
@@ -266,19 +328,35 @@ const ResiDashboard = () => {
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-card border-t p-2">
         <div className="max-w-7xl mx-auto grid grid-cols-4 gap-1">
-          <Button variant="ghost" className="flex-col h-auto py-2" onClick={() => navigate("/resi/dashboard")}>
+          <Button 
+            variant="ghost" 
+            className="flex-col h-auto py-2 hover:bg-primary/10 transition-colors" 
+            onClick={() => navigate("/resi/dashboard")}
+          >
             <Home className="w-5 h-5 mb-1 text-primary" />
-            <span className="text-xs">Inicio</span>
+            <span className="text-xs font-medium">Inicio</span>
           </Button>
-          <Button variant="ghost" className="flex-col h-auto py-2" onClick={() => navigate("/resi/visit/1")}>
+          <Button 
+            variant="ghost" 
+            className="flex-col h-auto py-2 hover:bg-primary/10 transition-colors" 
+            onClick={() => navigate("/resi/visit/1")}
+          >
             <Calendar className="w-5 h-5 mb-1" />
             <span className="text-xs">Agenda</span>
           </Button>
-          <Button variant="ghost" className="flex-col h-auto py-2" onClick={() => navigate("/resi/wallet")}>
+          <Button 
+            variant="ghost" 
+            className="flex-col h-auto py-2 hover:bg-primary/10 transition-colors" 
+            onClick={() => navigate("/resi/wallet")}
+          >
             <Wallet className="w-5 h-5 mb-1" />
             <span className="text-xs">Dinero</span>
           </Button>
-          <Button variant="ghost" className="flex-col h-auto py-2" onClick={() => navigate("/resi/basic-info")}>
+          <Button 
+            variant="ghost" 
+            className="flex-col h-auto py-2 hover:bg-primary/10 transition-colors" 
+            onClick={() => navigate("/resi/basic-info")}
+          >
             <User className="w-5 h-5 mb-1" />
             <span className="text-xs">Perfil</span>
           </Button>
