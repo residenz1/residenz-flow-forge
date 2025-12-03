@@ -25,23 +25,15 @@ import ResiVisitMission from "./pages/resi/ResiVisitMission";
 import ResiVisitFlag from "./pages/resi/ResiVisitFlag";
 import ResiVisitCheckout from "./pages/resi/ResiVisitCheckout";
 
-// Client pages
-import ClientRegister from "./pages/client/ClientRegister";
-import ClientOTP from "./pages/client/ClientOTP";
-import ClientHomeInfo from "./pages/client/ClientHomeInfo";
-import ClientSelectSize from "./pages/client/ClientSelectSize";
-import ClientSelectFrequency from "./pages/client/ClientSelectFrequency";
-import ClientPlanSummary from "./pages/client/ClientPlanSummary";
-import ClientPayment from "./pages/client/ClientPayment";
-import ClientConfirmation from "./pages/client/ClientConfirmation";
+// Client pages - Dashboard and visit management
 import ClientDashboard from "./pages/client/ClientDashboard";
 import ClientVisitDetail from "./pages/client/ClientVisitDetail";
 import ClientVisitTracking from "./pages/client/ClientVisitTracking";
 import ClientVisitRating from "./pages/client/ClientVisitRating";
 import ClientVisitUpsell from "./pages/client/ClientVisitUpsell";
+import ClientVisitReschedule from "./pages/client/ClientVisitReschedule";
 import ClientSupport from "./pages/client/ClientSupport";
 import ClientSupportDetail from "./pages/client/ClientSupportDetail";
-import ClientVisitReschedule from "./pages/client/ClientVisitReschedule";
 import ClientSupportNew from "./pages/client/ClientSupportNew";
 
 // Flash cleaning flow
@@ -82,24 +74,16 @@ const App = () => (
           <Route path="/resi/visit/:id/flag" element={<ResiVisitFlag />} />
           <Route path="/resi/visit/:id/checkout" element={<ResiVisitCheckout />} />
           
-          {/* Client Routes */}
-          <Route path="/client/register" element={<ClientRegister />} />
-          <Route path="/client/otp" element={<ClientOTP />} />
-          <Route path="/client/home-info" element={<ClientHomeInfo />} />
-          <Route path="/client/select-size" element={<ClientSelectSize />} />
-          <Route path="/client/select-frequency" element={<ClientSelectFrequency />} />
-          <Route path="/client/plan-summary" element={<ClientPlanSummary />} />
-          <Route path="/client/payment" element={<ClientPayment />} />
-          <Route path="/client/confirmation" element={<ClientConfirmation />} />
+          {/* Client Routes - Dashboard and visit management */}
           <Route path="/client/dashboard" element={<ClientDashboard />} />
           <Route path="/client/visit/:id" element={<ClientVisitDetail />} />
           <Route path="/client/visit/:id/tracking" element={<ClientVisitTracking />} />
           <Route path="/client/visit/:id/rating" element={<ClientVisitRating />} />
           <Route path="/client/visit/:id/upsell" element={<ClientVisitUpsell />} />
+          <Route path="/client/visit/:id/reschedule" element={<ClientVisitReschedule />} />
           <Route path="/client/support" element={<ClientSupport />} />
           <Route path="/client/support/new" element={<ClientSupportNew />} />
           <Route path="/client/support/:id" element={<ClientSupportDetail />} />
-          <Route path="/client/visit/:id/reschedule" element={<ClientVisitReschedule />} />
           
           {/* Flash Cleaning Routes */}
           <Route path="/client/flash-select" element={<ClientFlashSelect />} />
