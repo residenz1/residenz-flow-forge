@@ -17,11 +17,11 @@ const ClientFlashSelect = () => {
 
   const handleContinue = () => {
     if (selectedService) {
-      const service = services.find(s => s.id === selectedService);
+      const service = services.find((s) => s.id === selectedService);
       if (service) {
         // Only pass serializable data, not the icon component
-        navigate("/client/flash-photo", { 
-          state: { service: { id: service.id, name: service.name, price: service.price } } 
+        navigate("/client/flash-photo", {
+          state: { service: { id: service.id, name: service.name, price: service.price } },
         });
       }
     }
@@ -49,21 +49,21 @@ const ClientFlashSelect = () => {
           {services.map((service) => {
             const Icon = service.icon;
             const isSelected = selectedService === service.id;
-            
+
             return (
               <Card
                 key={service.id}
                 className={`p-4 cursor-pointer transition-all ${
-                  isSelected 
-                    ? "border-primary bg-primary/5 ring-2 ring-primary" 
-                    : "hover:border-primary/50"
+                  isSelected ? "border-primary bg-primary/5 ring-2 ring-primary" : "hover:border-primary/50"
                 }`}
                 onClick={() => setSelectedService(service.id)}
               >
                 <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                    isSelected ? "bg-primary/20" : "bg-muted"
-                  }`}>
+                  <div
+                    className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                      isSelected ? "bg-primary/20" : "bg-muted"
+                    }`}
+                  >
                     <Icon className={`w-6 h-6 ${isSelected ? "text-primary" : ""}`} />
                   </div>
                   <div className="flex-1">
@@ -81,12 +81,7 @@ const ClientFlashSelect = () => {
           })}
         </div>
 
-        <Button 
-          className="w-full" 
-          size="lg"
-          disabled={!selectedService}
-          onClick={handleContinue}
-        >
+        <Button className="w-full" size="lg" disabled={!selectedService} onClick={handleContinue}>
           Continuar
         </Button>
       </main>
