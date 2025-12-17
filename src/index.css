@@ -2,71 +2,68 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* RESIDENZ DESIGN SYSTEM
+   Concepto: Hotel Standard. Centro Vecinal. 10 Minutos.
+   Tono: Profesional, Confiable, Directo, Empático
+   All colors in HSL format
 */
 
 @layer base {
   :root {
-    /* Neobanco aesthetic - clean backgrounds */
-    --background: 0 0% 100%;
-    --foreground: 220 15% 10%;
+    /* Backgrounds - Clean & Professional */
+    --background: 210 20% 98%; /* #F9FAFB Gray-50 */
+    --foreground: 220 13% 12%; /* #1F2937 Gray-800 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 15% 10%;
+    --card: 0 0% 100%; /* #FFFFFF White */
+    --card-foreground: 220 13% 12%; /* #1F2937 */
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 10%;
+    --popover-foreground: 220 13% 12%;
 
-    /* Primary - Mint green accent (trust + energy) */
-    --primary: 165 70% 45%;
+    /* Primary - Emerald (Trust, Success, Balance) */
+    --primary: 160 84% 39%; /* #10B981 Emerald-500 */
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 165 70% 38%;
+    --primary-hover: 160 84% 36%; /* #059669 Emerald-600 */
 
-    /* Secondary - Neutral surface */
-    --secondary: 220 15% 96%;
-    --secondary-foreground: 220 15% 10%;
+    /* Secondary - Amber (Alerts, Pending, In-progress) */
+    --secondary: 38 92% 50%; /* #F59E0B Amber-500 */
+    --secondary-foreground: 0 0% 100%;
 
-    /* Muted - Subtle backgrounds */
-    --muted: 220 10% 95%;
-    --muted-foreground: 220 10% 45%;
-
-    /* Accent - For highlights */
-    --accent: 165 70% 45%;
+    /* Accent - Blue (Links, Information, Credits) */
+    --accent: 217 91% 60%; /* #3B82F6 Blue-500 */
     --accent-foreground: 0 0% 100%;
 
+    /* Muted - Subtle backgrounds */
+    --muted: 220 14% 96%; /* #F3F4F6 Gray-100 */
+    --muted-foreground: 220 9% 46%; /* #6B7280 Gray-500 */
+
     /* Status colors */
-    --success: 142 76% 36%;
+    --success: 160 84% 39%; /* Same as primary - Emerald */
     --success-foreground: 0 0% 100%;
     
-    --warning: 38 92% 50%;
+    --warning: 38 92% 50%; /* Amber-500 */
     --warning-foreground: 0 0% 100%;
     
-    --destructive: 0 84% 60%;
+    --destructive: 0 84% 60%; /* #EF4444 Red-500 */
     --destructive-foreground: 0 0% 100%;
 
     /* Borders and inputs */
-    --border: 220 13% 88%;
-    --input: 220 13% 88%;
-    --ring: 165 70% 45%;
+    --border: 220 13% 91%; /* #E5E7EB Gray-200 */
+    --input: 220 13% 91%;
+    --ring: 160 84% 39%; /* Emerald focus ring */
 
-    --radius: 0.75rem;
+    --radius: 0.5rem; /* 8px - Standard border radius */
+    --radius-lg: 0.75rem; /* 12px - Large border radius */
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 13% 12%;
+    --sidebar-primary: 160 84% 39%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 96%;
+    --sidebar-accent-foreground: 220 13% 12%;
     --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 160 84% 39%;
   }
 
   .dark {
@@ -79,23 +76,23 @@ All colors MUST be HSL.
     --popover: 220 20% 12%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 165 70% 45%;
+    --primary: 160 84% 45%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 165 70% 38%;
+    --primary-hover: 160 84% 50%;
 
-    --secondary: 220 20% 16%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 38 92% 55%;
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 217 91% 65%;
+    --accent-foreground: 0 0% 100%;
 
     --muted: 220 20% 16%;
     --muted-foreground: 220 10% 60%;
 
-    --accent: 165 70% 45%;
-    --accent-foreground: 0 0% 100%;
-
-    --success: 142 76% 36%;
+    --success: 160 84% 45%;
     --success-foreground: 0 0% 100%;
     
-    --warning: 38 92% 50%;
+    --warning: 38 92% 55%;
     --warning-foreground: 0 0% 100%;
     
     --destructive: 0 84% 60%;
@@ -103,15 +100,16 @@ All colors MUST be HSL.
 
     --border: 220 20% 20%;
     --input: 220 20% 20%;
-    --ring: 165 70% 45%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --ring: 160 84% 45%;
+
+    --sidebar-background: 220 20% 10%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 160 84% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 220 20% 16%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 220 20% 20%;
+    --sidebar-ring: 160 84% 45%;
   }
 }
 
@@ -124,8 +122,25 @@ All colors MUST be HSL.
     @apply bg-background text-foreground font-inter antialiased;
   }
 
+  /* Typography - Sora for headings, Inter for body */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-sora font-semibold;
+    @apply font-sora font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-2xl md:text-[30px] font-bold leading-tight;
+  }
+
+  h2 {
+    @apply text-xl md:text-2xl font-semibold;
+  }
+
+  h3 {
+    @apply text-lg md:text-xl font-semibold;
+  }
+
+  h4 {
+    @apply text-base md:text-lg font-medium;
   }
 }
 
@@ -143,5 +158,44 @@ All colors MUST be HSL.
   /* Gradient overlay for hero sections */
   .gradient-overlay {
     @apply absolute inset-0 bg-gradient-to-b from-transparent to-background/80;
+  }
+
+  /* Primary gradient background (for wallet cards) */
+  .bg-gradient-primary {
+    @apply bg-gradient-to-br from-primary to-primary/80;
+  }
+
+  /* Status backgrounds */
+  .bg-status-success {
+    @apply bg-[hsl(138,76%,97%)] border border-[hsl(142,76%,73%)];
+  }
+
+  .bg-status-warning {
+    @apply bg-[hsl(48,96%,89%)] border border-[hsl(45,93%,58%)];
+  }
+
+  .bg-status-info {
+    @apply bg-[hsl(214,95%,93%)] border border-[hsl(213,94%,68%)];
+  }
+
+  /* Text utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom scrollbar styling */
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-muted rounded-full;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full hover:bg-muted-foreground/30;
   }
 }

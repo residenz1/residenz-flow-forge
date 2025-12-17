@@ -47,10 +47,20 @@ export default {
         success: {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
+          light: "hsl(138, 76%, 97%)",
+          dark: "hsl(142, 71%, 29%)",
         },
         warning: {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
+          light: "hsl(48, 96%, 89%)",
+          dark: "hsl(32, 81%, 29%)",
+        },
+        info: {
+          DEFAULT: "hsl(217, 91%, 60%)",
+          foreground: "hsl(0, 0%, 100%)",
+          light: "hsl(214, 95%, 93%)",
+          dark: "hsl(224, 76%, 35%)",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -75,6 +85,7 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xl: "var(--radius-lg)",
       },
       keyframes: {
         "accordion-down": {

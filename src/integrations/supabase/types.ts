@@ -68,6 +68,54 @@ export type Database = {
           },
         ]
       }
+      audit_financial_ops: {
+        Row: {
+          amount: number | null
+          booking_id: string | null
+          created_at: string | null
+          id: number
+          op: string | null
+          tenant_id: string | null
+        }
+        Insert: {
+          amount?: number | null
+          booking_id?: string | null
+          created_at?: string | null
+          id?: never
+          op?: string | null
+          tenant_id?: string | null
+        }
+        Update: {
+          amount?: number | null
+          booking_id?: string | null
+          created_at?: string | null
+          id?: never
+          op?: string | null
+          tenant_id?: string | null
+        }
+        Relationships: []
+      }
+      audit_user_bootstrap: {
+        Row: {
+          created_at: string | null
+          id: number
+          tenant_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: never
+          tenant_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: never
+          tenant_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       bank_accounts: {
         Row: {
           account_holder_name: string
@@ -145,6 +193,27 @@ export type Database = {
             referencedRelation: "bookings"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "booking_tasks_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_booking_settlement_status"
+            referencedColumns: ["booking_id"]
+          },
+          {
+            foreignKeyName: "booking_tasks_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_tasks_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings_financials"
+            referencedColumns: ["booking_id"]
+          },
         ]
       }
       bookings: {
@@ -152,54 +221,78 @@ export type Database = {
           address_id: string | null
           agreed_payout_amount: number | null
           booking_type: Database["public"]["Enums"]["booking_type"]
+          building_tenant_id: string | null
           check_in_at: string | null
           check_in_location: unknown
           check_in_selfie_url: string | null
           check_out_at: string | null
           client_id: string
+          client_tenant_id: string | null
+          commission_amount: number | null
           common_area_id: string | null
+          country_code: string | null
           created_at: string | null
+          currency: string | null
           id: string
+          provider_payout_amount: number | null
+          provider_tenant_id: string | null
           resi_id: string | null
           scheduled_at: string
           status: Database["public"]["Enums"]["booking_status"] | null
-          subscription_id: string
+          subscription_id: string | null
+          total_amount: number | null
           updated_at: string | null
         }
         Insert: {
           address_id?: string | null
           agreed_payout_amount?: number | null
           booking_type: Database["public"]["Enums"]["booking_type"]
+          building_tenant_id?: string | null
           check_in_at?: string | null
           check_in_location?: unknown
           check_in_selfie_url?: string | null
           check_out_at?: string | null
           client_id: string
+          client_tenant_id?: string | null
+          commission_amount?: number | null
           common_area_id?: string | null
+          country_code?: string | null
           created_at?: string | null
+          currency?: string | null
           id?: string
+          provider_payout_amount?: number | null
+          provider_tenant_id?: string | null
           resi_id?: string | null
           scheduled_at: string
           status?: Database["public"]["Enums"]["booking_status"] | null
-          subscription_id: string
+          subscription_id?: string | null
+          total_amount?: number | null
           updated_at?: string | null
         }
         Update: {
           address_id?: string | null
           agreed_payout_amount?: number | null
           booking_type?: Database["public"]["Enums"]["booking_type"]
+          building_tenant_id?: string | null
           check_in_at?: string | null
           check_in_location?: unknown
           check_in_selfie_url?: string | null
           check_out_at?: string | null
           client_id?: string
+          client_tenant_id?: string | null
+          commission_amount?: number | null
           common_area_id?: string | null
+          country_code?: string | null
           created_at?: string | null
+          currency?: string | null
           id?: string
+          provider_payout_amount?: number | null
+          provider_tenant_id?: string | null
           resi_id?: string | null
           scheduled_at?: string
           status?: Database["public"]["Enums"]["booking_status"] | null
-          subscription_id?: string
+          subscription_id?: string | null
+          total_amount?: number | null
           updated_at?: string | null
         }
         Relationships: [
@@ -211,6 +304,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "bookings_building_tenant_id_fkey"
+            columns: ["building_tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "bookings_client_id_fkey"
             columns: ["client_id"]
             isOneToOne: false
@@ -218,10 +318,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "bookings_client_tenant_id_fkey"
+            columns: ["client_tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "bookings_common_area_id_fkey"
             columns: ["common_area_id"]
             isOneToOne: false
             referencedRelation: "common_areas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_provider_tenant_id_fkey"
+            columns: ["provider_tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
           {
@@ -305,6 +419,66 @@ export type Database = {
           },
         ]
       }
+      chat_messages: {
+        Row: {
+          booking_id: string
+          created_at: string | null
+          id: string
+          message: string
+          sender_id: string
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string | null
+          id?: string
+          message: string
+          sender_id: string
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string | null
+          id?: string
+          message?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_messages_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_booking_settlement_status"
+            referencedColumns: ["booking_id"]
+          },
+          {
+            foreignKeyName: "chat_messages_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_messages_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings_financials"
+            referencedColumns: ["booking_id"]
+          },
+          {
+            foreignKeyName: "chat_messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       common_areas: {
         Row: {
           agreed_price_per_service: number | null
@@ -351,6 +525,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      financial_idempotency: {
+        Row: {
+          amount: number | null
+          booking_id: string | null
+          created_at: string | null
+          idempotency_key: string
+        }
+        Insert: {
+          amount?: number | null
+          booking_id?: string | null
+          created_at?: string | null
+          idempotency_key: string
+        }
+        Update: {
+          amount?: number | null
+          booking_id?: string | null
+          created_at?: string | null
+          idempotency_key?: string
+        }
+        Relationships: []
       }
       incidents: {
         Row: {
@@ -399,6 +594,27 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "bookings"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "incidents_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_booking_settlement_status"
+            referencedColumns: ["booking_id"]
+          },
+          {
+            foreignKeyName: "incidents_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "incidents_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings_financials"
+            referencedColumns: ["booking_id"]
           },
           {
             foreignKeyName: "incidents_building_id_fkey"
@@ -454,6 +670,27 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "bookings"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoice_items_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_booking_settlement_status"
+            referencedColumns: ["booking_id"]
+          },
+          {
+            foreignKeyName: "invoice_items_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoice_items_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings_financials"
+            referencedColumns: ["booking_id"]
           },
           {
             foreignKeyName: "invoice_items_invoice_id_fkey"
@@ -524,6 +761,81 @@ export type Database = {
           },
         ]
       }
+      ledger_entries: {
+        Row: {
+          amount_cents: number
+          booking_id: string | null
+          created_at: string
+          description: string | null
+          entry_type: string
+          id: string
+          idempotency_key: string | null
+          metadata: Json | null
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          amount_cents: number
+          booking_id?: string | null
+          created_at?: string
+          description?: string | null
+          entry_type: string
+          id?: string
+          idempotency_key?: string | null
+          metadata?: Json | null
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number
+          booking_id?: string | null
+          created_at?: string
+          description?: string | null
+          entry_type?: string
+          id?: string
+          idempotency_key?: string | null
+          metadata?: Json | null
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ledger_entries_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ledger_entries_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_booking_settlement_status"
+            referencedColumns: ["booking_id"]
+          },
+          {
+            foreignKeyName: "ledger_entries_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ledger_entries_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings_financials"
+            referencedColumns: ["booking_id"]
+          },
+          {
+            foreignKeyName: "ledger_entries_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       loans: {
         Row: {
           created_at: string | null
@@ -574,6 +886,78 @@ export type Database = {
           },
         ]
       }
+      payout_jobs: {
+        Row: {
+          amount_cents: number
+          booking_id: string
+          created_at: string
+          currency: string
+          destination_account: Json
+          id: string
+          idempotency_key: string
+          last_attempt_at: string | null
+          last_error: Json | null
+          next_attempt_at: string | null
+          processing_worker_id: string | null
+          provider_id: string
+          retry_count: number
+          status: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          amount_cents: number
+          booking_id: string
+          created_at?: string
+          currency?: string
+          destination_account: Json
+          id?: string
+          idempotency_key: string
+          last_attempt_at?: string | null
+          last_error?: Json | null
+          next_attempt_at?: string | null
+          processing_worker_id?: string | null
+          provider_id: string
+          retry_count?: number
+          status?: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number
+          booking_id?: string
+          created_at?: string
+          currency?: string
+          destination_account?: Json
+          id?: string
+          idempotency_key?: string
+          last_attempt_at?: string | null
+          last_error?: Json | null
+          next_attempt_at?: string | null
+          processing_worker_id?: string | null
+          provider_id?: string
+          retry_count?: number
+          status?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payout_jobs_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payout_jobs_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       plans: {
         Row: {
           base_price: number
@@ -609,6 +993,85 @@ export type Database = {
           visits_per_month?: number
         }
         Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          full_name: string | null
+          id: string
+          role: string | null
+          tenant_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          full_name?: string | null
+          id: string
+          role?: string | null
+          tenant_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          full_name?: string | null
+          id?: string
+          role?: string | null
+          tenant_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      queue_events: {
+        Row: {
+          created_at: string | null
+          delivered_at: string | null
+          id: string
+          payload: Json
+          retry_count: number | null
+          status: string
+          topic: string
+          type: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          delivered_at?: string | null
+          id?: string
+          payload: Json
+          retry_count?: number | null
+          status?: string
+          topic?: string
+          type: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          delivered_at?: string | null
+          id?: string
+          payload?: Json
+          retry_count?: number | null
+          status?: string
+          topic?: string
+          type?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "queue_events_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       ratings: {
         Row: {
@@ -647,6 +1110,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "ratings_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_booking_settlement_status"
+            referencedColumns: ["booking_id"]
+          },
+          {
+            foreignKeyName: "ratings_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ratings_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings_financials"
+            referencedColumns: ["booking_id"]
+          },
+          {
             foreignKeyName: "ratings_rated_id_fkey"
             columns: ["rated_id"]
             isOneToOne: false
@@ -661,6 +1145,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      reconciliation_checkpoint: {
+        Row: {
+          job_name: string
+          last_user_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          job_name: string
+          last_user_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          job_name?: string
+          last_user_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       referral_codes: {
         Row: {
@@ -862,6 +1364,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "service_flags_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_booking_settlement_status"
+            referencedColumns: ["booking_id"]
+          },
+          {
+            foreignKeyName: "service_flags_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_flags_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings_financials"
+            referencedColumns: ["booking_id"]
+          },
+          {
             foreignKeyName: "service_flags_resi_id_fkey"
             columns: ["resi_id"]
             isOneToOne: false
@@ -981,43 +1504,137 @@ export type Database = {
           },
         ]
       }
+      tenants: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          type: string | null
+          verification_status: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          type?: string | null
+          verification_status?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          type?: string | null
+          verification_status?: string | null
+        }
+        Relationships: []
+      }
       transactions: {
         Row: {
           amount: number
+          booking_id: string | null
+          country_code: string | null
           created_at: string | null
+          currency: string | null
+          description: string | null
           id: string
           metadata: Json | null
           reference_id: string | null
+          related_transaction_id: string | null
           status: Database["public"]["Enums"]["transaction_status"] | null
-          type: Database["public"]["Enums"]["transaction_type"]
+          tenant_id: string | null
+          type: Database["public"]["Enums"]["txn_type"]
+          updated_at: string | null
           wallet_id: string
         }
         Insert: {
           amount: number
+          booking_id?: string | null
+          country_code?: string | null
           created_at?: string | null
+          currency?: string | null
+          description?: string | null
           id?: string
           metadata?: Json | null
           reference_id?: string | null
+          related_transaction_id?: string | null
           status?: Database["public"]["Enums"]["transaction_status"] | null
-          type: Database["public"]["Enums"]["transaction_type"]
+          tenant_id?: string | null
+          type: Database["public"]["Enums"]["txn_type"]
+          updated_at?: string | null
           wallet_id: string
         }
         Update: {
           amount?: number
+          booking_id?: string | null
+          country_code?: string | null
           created_at?: string | null
+          currency?: string | null
+          description?: string | null
           id?: string
           metadata?: Json | null
           reference_id?: string | null
+          related_transaction_id?: string | null
           status?: Database["public"]["Enums"]["transaction_status"] | null
-          type?: Database["public"]["Enums"]["transaction_type"]
+          tenant_id?: string | null
+          type?: Database["public"]["Enums"]["txn_type"]
+          updated_at?: string | null
           wallet_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "transactions_wallet_id_fkey"
-            columns: ["wallet_id"]
+            foreignKeyName: "transactions_booking_id_fkey"
+            columns: ["booking_id"]
             isOneToOne: false
-            referencedRelation: "wallets"
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_booking_settlement_status"
+            referencedColumns: ["booking_id"]
+          },
+          {
+            foreignKeyName: "transactions_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings_financials"
+            referencedColumns: ["booking_id"]
+          },
+          {
+            foreignKeyName: "transactions_related_transaction_id_fkey"
+            columns: ["related_transaction_id"]
+            isOneToOne: false
+            referencedRelation: "transactions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_related_transaction_id_fkey"
+            columns: ["related_transaction_id"]
+            isOneToOne: false
+            referencedRelation: "v_bookings_financials"
+            referencedColumns: ["transaction_id"]
+          },
+          {
+            foreignKeyName: "transactions_tenant_fk"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
         ]
@@ -1120,6 +1737,7 @@ export type Database = {
           front_image_url: string | null
           id: string
           selfie_url: string | null
+          tenant_id: string | null
           user_id: string
           verification_metadata: Json | null
           verified_at: string | null
@@ -1132,6 +1750,7 @@ export type Database = {
           front_image_url?: string | null
           id?: string
           selfie_url?: string | null
+          tenant_id?: string | null
           user_id: string
           verification_metadata?: Json | null
           verified_at?: string | null
@@ -1144,6 +1763,7 @@ export type Database = {
           front_image_url?: string | null
           id?: string
           selfie_url?: string | null
+          tenant_id?: string | null
           user_id?: string
           verification_metadata?: Json | null
           verified_at?: string | null
@@ -1249,36 +1869,42 @@ export type Database = {
         Row: {
           balance_available: number | null
           balance_blocked: number | null
+          country_code: string | null
           created_at: string | null
           currency: string | null
           id: string
           last_transaction_at: string | null
-          user_id: string
+          tenant_id: string
+          updated_at: string | null
         }
         Insert: {
           balance_available?: number | null
           balance_blocked?: number | null
+          country_code?: string | null
           created_at?: string | null
           currency?: string | null
           id?: string
           last_transaction_at?: string | null
-          user_id: string
+          tenant_id: string
+          updated_at?: string | null
         }
         Update: {
           balance_available?: number | null
           balance_blocked?: number | null
+          country_code?: string | null
           created_at?: string | null
           currency?: string | null
           id?: string
           last_transaction_at?: string | null
-          user_id?: string
+          tenant_id?: string
+          updated_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "wallets_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "wallets_tenant_fk"
+            columns: ["tenant_id"]
             isOneToOne: true
-            referencedRelation: "users"
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
         ]
@@ -1326,6 +1952,160 @@ export type Database = {
           type?: string | null
         }
         Relationships: []
+      }
+      v_booking_settlement_status: {
+        Row: {
+          booking_id: string | null
+          booking_status: Database["public"]["Enums"]["booking_status"] | null
+          commission_amount: number | null
+          overall_status: string | null
+          provider_payout_amount: number | null
+          settlement_status: string | null
+          total_amount: number | null
+        }
+        Relationships: []
+      }
+      v_bookings: {
+        Row: {
+          amount_cents: number | null
+          building_tenant_id: string | null
+          client_tenant_id: string | null
+          created_at: string | null
+          id: string | null
+          provider_tenant_id: string | null
+          service_id: string | null
+          status: Database["public"]["Enums"]["booking_status"] | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount_cents?: never
+          building_tenant_id?: string | null
+          client_tenant_id?: string | null
+          created_at?: string | null
+          id?: string | null
+          provider_tenant_id?: string | null
+          service_id?: string | null
+          status?: Database["public"]["Enums"]["booking_status"] | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount_cents?: never
+          building_tenant_id?: string | null
+          client_tenant_id?: string | null
+          created_at?: string | null
+          id?: string | null
+          provider_tenant_id?: string | null
+          service_id?: string | null
+          status?: Database["public"]["Enums"]["booking_status"] | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_building_tenant_id_fkey"
+            columns: ["building_tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_client_tenant_id_fkey"
+            columns: ["client_tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_provider_tenant_id_fkey"
+            columns: ["provider_tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_subscription_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_bookings_financials: {
+        Row: {
+          amount_cents: number | null
+          amount_numeric: number | null
+          booking_id: string | null
+          booking_status: Database["public"]["Enums"]["booking_status"] | null
+          client_tenant_id: string | null
+          ledger_amount_cents: number | null
+          ledger_matches_booking: boolean | null
+          ledger_matches_transaction: boolean | null
+          provider_tenant_id: string | null
+          transaction_amount: number | null
+          transaction_created_at: string | null
+          transaction_id: string | null
+          transaction_status:
+            | Database["public"]["Enums"]["transaction_status"]
+            | null
+          transaction_type: Database["public"]["Enums"]["txn_type"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_client_tenant_id_fkey"
+            columns: ["client_tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_provider_tenant_id_fkey"
+            columns: ["provider_tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_wallets_preview: {
+        Row: {
+          balance_available: number | null
+          balance_blocked: number | null
+          created_at: string | null
+          currency: string | null
+          effective_balance: number | null
+          id: string | null
+          tenant_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          balance_available?: never
+          balance_blocked?: never
+          created_at?: string | null
+          currency?: string | null
+          effective_balance?: never
+          id?: string | null
+          tenant_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          balance_available?: never
+          balance_blocked?: never
+          created_at?: string | null
+          currency?: string | null
+          effective_balance?: never
+          id?: string | null
+          tenant_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wallets_tenant_fk"
+            columns: ["tenant_id"]
+            isOneToOne: true
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Functions: {
@@ -1418,31 +2198,12 @@ export type Database = {
         Returns: unknown
       }
       _st_within: { Args: { geom1: unknown; geom2: unknown }; Returns: boolean }
+      add_funds_intent: {
+        Args: { p_amount: number; p_user_id: string }
+        Returns: Json
+      }
       addauth: { Args: { "": string }; Returns: boolean }
       addgeometrycolumn:
-        | {
-            Args: {
-              column_name: string
-              new_dim: number
-              new_srid: number
-              new_type: string
-              schema_name: string
-              table_name: string
-              use_typmod?: boolean
-            }
-            Returns: string
-          }
-        | {
-            Args: {
-              column_name: string
-              new_dim: number
-              new_srid: number
-              new_type: string
-              table_name: string
-              use_typmod?: boolean
-            }
-            Returns: string
-          }
         | {
             Args: {
               catalog_name: string
@@ -1456,8 +2217,93 @@ export type Database = {
             }
             Returns: string
           }
+        | {
+            Args: {
+              column_name: string
+              new_dim: number
+              new_srid: number
+              new_type: string
+              schema_name: string
+              table_name: string
+              use_typmod?: boolean
+            }
+            Returns: string
+          }
+        | {
+            Args: {
+              column_name: string
+              new_dim: number
+              new_srid: number
+              new_type: string
+              table_name: string
+              use_typmod?: boolean
+            }
+            Returns: string
+          }
+      can_access_booking_chat: {
+        Args: { p_booking_id: string }
+        Returns: boolean
+      }
+      claim_queue_events: {
+        Args: { batch_size: number }
+        Returns: {
+          created_at: string | null
+          delivered_at: string | null
+          id: string
+          payload: Json
+          retry_count: number | null
+          status: string
+          topic: string
+          type: string
+          updated_at: string | null
+          user_id: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "queue_events"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      close_service_financials: {
+        Args: {
+          p_booking_id: string
+          p_force: boolean
+          p_include_tip_cents: number
+          p_initiator_user_id: string
+        }
+        Returns: Json
+      }
+      confirm_payment: {
+        Args: { p_payment_intent_id: string; p_user_id: string }
+        Returns: Json
+      }
+      create_booking_with_lock: {
+        Args: {
+          p_address_id: string
+          p_amount_cents: number
+          p_booking_type: string
+          p_building_tenant_id: string
+          p_client_tenant_id: string
+          p_created_by: string
+          p_payout_cents: number
+          p_provider_tenant_id: string
+          p_scheduled_at: string
+          p_service_id: string
+        }
+        Returns: Json
+      }
       disablelongtransactions: { Args: never; Returns: string }
       dropgeometrycolumn:
+        | {
+            Args: {
+              catalog_name: string
+              column_name: string
+              schema_name: string
+              table_name: string
+            }
+            Returns: string
+          }
         | {
             Args: {
               column_name: string
@@ -1467,26 +2313,17 @@ export type Database = {
             Returns: string
           }
         | { Args: { column_name: string; table_name: string }; Returns: string }
+      dropgeometrytable:
         | {
             Args: {
               catalog_name: string
-              column_name: string
               schema_name: string
               table_name: string
             }
             Returns: string
           }
-      dropgeometrytable:
         | { Args: { schema_name: string; table_name: string }; Returns: string }
         | { Args: { table_name: string }; Returns: string }
-        | {
-            Args: {
-              catalog_name: string
-              schema_name: string
-              table_name: string
-            }
-            Returns: string
-          }
       enablelongtransactions: { Args: never; Returns: string }
       equals: { Args: { geom1: unknown; geom2: unknown }; Returns: boolean }
       geometry: { Args: { "": string }; Returns: unknown }
@@ -1587,11 +2424,44 @@ export type Database = {
         Returns: boolean
       }
       geomfromewkt: { Args: { "": string }; Returns: unknown }
+      get_and_lock_pending_payouts: {
+        Args: { p_limit?: number }
+        Returns: {
+          amount_cents: number
+          booking_id: string
+          created_at: string
+          currency: string
+          destination_account: Json
+          id: string
+          idempotency_key: string
+          last_attempt_at: string | null
+          last_error: Json | null
+          next_attempt_at: string | null
+          processing_worker_id: string | null
+          provider_id: string
+          retry_count: number
+          status: string
+          tenant_id: string
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "payout_jobs"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      get_country_config: { Args: { p_country_code: string }; Returns: Json }
+      get_current_tenant_id: { Args: never; Returns: string }
+      get_my_tenant_id: { Args: never; Returns: string }
+      get_user_tenant: { Args: never; Returns: string }
+      get_wallet_balance: { Args: { p_user_id: string }; Returns: Json }
       gettransactionid: { Args: never; Returns: unknown }
+      invoke_queue_worker: { Args: never; Returns: undefined }
       longtransactionsenabled: { Args: never; Returns: boolean }
       populate_geometry_columns:
-        | { Args: { use_typmod?: boolean }; Returns: string }
         | { Args: { tbl_oid: unknown; use_typmod?: boolean }; Returns: number }
+        | { Args: { use_typmod?: boolean }; Returns: string }
       postgis_constraint_dims: {
         Args: { geomcolumn: string; geomschema: string; geomtable: string }
         Returns: number
@@ -1629,6 +2499,54 @@ export type Database = {
       }
       postgis_version: { Args: never; Returns: string }
       postgis_wagyu_version: { Args: never; Returns: string }
+      preview_close_service_financials: {
+        Args: { p_booking_id: string }
+        Returns: Json
+      }
+      process_refund: {
+        Args: {
+          p_booking_id: string
+          p_idempotency_key?: string
+          p_reason: string
+        }
+        Returns: undefined
+      }
+      reconciliation_backfill_batch: {
+        Args: { p_limit?: number }
+        Returns: number
+      }
+      recover_stuck_queue_events: { Args: never; Returns: undefined }
+      request_payout: {
+        Args: {
+          p_amount: number
+          p_idempotency_key: string
+          p_tenant_id: string
+        }
+        Returns: string
+      }
+      request_withdrawal: {
+        Args: { p_amount: number; p_bank_account_id: string; p_user_id: string }
+        Returns: Json
+      }
+      reset_stale_processing_events: {
+        Args: { timeout_minutes?: number }
+        Returns: number
+      }
+      schedule_payout_for_booking:
+        | { Args: { p_booking_id: string }; Returns: string }
+        | {
+            Args: { p_booking_id: string; p_currency?: string; p_net: number }
+            Returns: undefined
+          }
+      settle_booking_financials: {
+        Args: {
+          p_booking_id: string
+          p_force?: boolean
+          p_initiator_user_id: string
+          p_request_id?: string
+        }
+        Returns: Json
+      }
       st_3dclosestpoint: {
         Args: { geom1: unknown; geom2: unknown }
         Returns: unknown
@@ -1677,6 +2595,14 @@ export type Database = {
       st_asewkt: { Args: { "": string }; Returns: string }
       st_asgeojson:
         | {
+            Args: { geog: unknown; maxdecimaldigits?: number; options?: number }
+            Returns: string
+          }
+        | {
+            Args: { geom: unknown; maxdecimaldigits?: number; options?: number }
+            Returns: string
+          }
+        | {
             Args: {
               geom_column?: string
               maxdecimaldigits?: number
@@ -1685,18 +2611,32 @@ export type Database = {
             }
             Returns: string
           }
-        | {
-            Args: { geom: unknown; maxdecimaldigits?: number; options?: number }
-            Returns: string
-          }
-        | {
-            Args: { geog: unknown; maxdecimaldigits?: number; options?: number }
-            Returns: string
-          }
         | { Args: { "": string }; Returns: string }
       st_asgml:
         | {
+            Args: {
+              geog: unknown
+              id?: string
+              maxdecimaldigits?: number
+              nprefix?: string
+              options?: number
+            }
+            Returns: string
+          }
+        | {
             Args: { geom: unknown; maxdecimaldigits?: number; options?: number }
+            Returns: string
+          }
+        | { Args: { "": string }; Returns: string }
+        | {
+            Args: {
+              geog: unknown
+              id?: string
+              maxdecimaldigits?: number
+              nprefix?: string
+              options?: number
+              version: number
+            }
             Returns: string
           }
         | {
@@ -1710,35 +2650,13 @@ export type Database = {
             }
             Returns: string
           }
-        | {
-            Args: {
-              geog: unknown
-              id?: string
-              maxdecimaldigits?: number
-              nprefix?: string
-              options?: number
-              version: number
-            }
-            Returns: string
-          }
-        | {
-            Args: {
-              geog: unknown
-              id?: string
-              maxdecimaldigits?: number
-              nprefix?: string
-              options?: number
-            }
-            Returns: string
-          }
-        | { Args: { "": string }; Returns: string }
       st_askml:
         | {
-            Args: { geom: unknown; maxdecimaldigits?: number; nprefix?: string }
+            Args: { geog: unknown; maxdecimaldigits?: number; nprefix?: string }
             Returns: string
           }
         | {
-            Args: { geog: unknown; maxdecimaldigits?: number; nprefix?: string }
+            Args: { geom: unknown; maxdecimaldigits?: number; nprefix?: string }
             Returns: string
           }
         | { Args: { "": string }; Returns: string }
@@ -1759,11 +2677,11 @@ export type Database = {
       }
       st_assvg:
         | {
-            Args: { geom: unknown; maxdecimaldigits?: number; rel?: number }
+            Args: { geog: unknown; maxdecimaldigits?: number; rel?: number }
             Returns: string
           }
         | {
-            Args: { geog: unknown; maxdecimaldigits?: number; rel?: number }
+            Args: { geom: unknown; maxdecimaldigits?: number; rel?: number }
             Returns: string
           }
         | { Args: { "": string }; Returns: string }
@@ -1771,8 +2689,7 @@ export type Database = {
       st_astwkb:
         | {
             Args: {
-              geom: unknown[]
-              ids: number[]
+              geom: unknown
               prec?: number
               prec_m?: number
               prec_z?: number
@@ -1783,7 +2700,8 @@ export type Database = {
           }
         | {
             Args: {
-              geom: unknown
+              geom: unknown[]
+              ids: number[]
               prec?: number
               prec_m?: number
               prec_z?: number
@@ -1797,8 +2715,8 @@ export type Database = {
         Returns: string
       }
       st_azimuth:
-        | { Args: { geom1: unknown; geom2: unknown }; Returns: number }
         | { Args: { geog1: unknown; geog2: unknown }; Returns: number }
+        | { Args: { geom1: unknown; geom2: unknown }; Returns: number }
       st_boundingdiagonal: {
         Args: { fits?: boolean; geom: unknown }
         Returns: unknown
@@ -1863,11 +2781,11 @@ export type Database = {
         Returns: boolean
       }
       st_distance:
-        | { Args: { geom1: unknown; geom2: unknown }; Returns: number }
         | {
             Args: { geog1: unknown; geog2: unknown; use_spheroid?: boolean }
             Returns: number
           }
+        | { Args: { geom1: unknown; geom2: unknown }; Returns: number }
       st_distancesphere:
         | { Args: { geom1: unknown; geom2: unknown }; Returns: number }
         | {
@@ -1889,6 +2807,11 @@ export type Database = {
       }
       st_equals: { Args: { geom1: unknown; geom2: unknown }; Returns: boolean }
       st_expand:
+        | { Args: { box: unknown; dx: number; dy: number }; Returns: unknown }
+        | {
+            Args: { box: unknown; dx: number; dy: number; dz?: number }
+            Returns: unknown
+          }
         | {
             Args: {
               dm?: number
@@ -1899,11 +2822,6 @@ export type Database = {
             }
             Returns: unknown
           }
-        | {
-            Args: { box: unknown; dx: number; dy: number; dz?: number }
-            Returns: unknown
-          }
-        | { Args: { box: unknown; dx: number; dy: number }; Returns: unknown }
       st_force3d: { Args: { geom: unknown; zvalue?: number }; Returns: unknown }
       st_force3dm: {
         Args: { geom: unknown; mvalue?: number }
@@ -1926,8 +2844,8 @@ export type Database = {
       st_geogfromtext: { Args: { "": string }; Returns: unknown }
       st_geographyfromtext: { Args: { "": string }; Returns: unknown }
       st_geohash:
-        | { Args: { geom: unknown; maxchars?: number }; Returns: string }
         | { Args: { geog: unknown; maxchars?: number }; Returns: string }
+        | { Args: { geom: unknown; maxchars?: number }; Returns: string }
       st_geomcollfromtext: { Args: { "": string }; Returns: unknown }
       st_geometricmedian: {
         Args: {
@@ -1971,8 +2889,8 @@ export type Database = {
         Returns: unknown
       }
       st_intersects:
-        | { Args: { geom1: unknown; geom2: unknown }; Returns: boolean }
         | { Args: { geog1: unknown; geog2: unknown }; Returns: boolean }
+        | { Args: { geom1: unknown; geom2: unknown }; Returns: boolean }
       st_isvaliddetail: {
         Args: { flags?: number; geom: unknown }
         Returns: Database["public"]["CompositeTypes"]["valid_detail"]
@@ -2125,8 +3043,8 @@ export type Database = {
         Returns: unknown
       }
       st_setsrid:
-        | { Args: { geom: unknown; srid: number }; Returns: unknown }
         | { Args: { geog: unknown; srid: number }; Returns: unknown }
+        | { Args: { geom: unknown; srid: number }; Returns: unknown }
       st_sharedpaths: {
         Args: { geom1: unknown; geom2: unknown }
         Returns: unknown
@@ -2149,8 +3067,8 @@ export type Database = {
         Returns: Record<string, unknown>[]
       }
       st_srid:
-        | { Args: { geom: unknown }; Returns: number }
         | { Args: { geog: unknown }; Returns: number }
+        | { Args: { geom: unknown }; Returns: number }
       st_subdivide: {
         Args: { geom: unknown; gridsize?: number; maxvertices?: number }
         Returns: unknown[]
@@ -2179,15 +3097,15 @@ export type Database = {
       }
       st_touches: { Args: { geom1: unknown; geom2: unknown }; Returns: boolean }
       st_transform:
-        | { Args: { geom: unknown; to_proj: string }; Returns: unknown }
-        | {
-            Args: { from_proj: string; geom: unknown; to_srid: number }
-            Returns: unknown
-          }
         | {
             Args: { from_proj: string; geom: unknown; to_proj: string }
             Returns: unknown
           }
+        | {
+            Args: { from_proj: string; geom: unknown; to_srid: number }
+            Returns: unknown
+          }
+        | { Args: { geom: unknown; to_proj: string }; Returns: unknown }
       st_triangulatepolygon: { Args: { g1: unknown }; Returns: unknown }
       st_union:
         | { Args: { geom1: unknown; geom2: unknown }; Returns: unknown }
@@ -2232,6 +3150,9 @@ export type Database = {
         | "COMPLETED"
         | "CANCELED"
         | "NO_SHOW"
+        | "REQUESTED"
+        | "CONFIRMED"
+        | "CANCELLED"
       booking_type: "RESIDENTIAL" | "COMMON_AREA" | "DEEP_CLEAN"
       cleaning_frequency: "DAILY" | "WEEKLY" | "BIWEEKLY" | "MONTHLY"
       doc_type: "DNI" | "PASSPORT" | "CE" | "RUC"
@@ -2270,6 +3191,7 @@ export type Database = {
         | "LOAN_REPAYMENT"
         | "FEE"
         | "LANDLORD_COMMISSION"
+      txn_type: "SERVICE_PAYMENT" | "FEE" | "PAYOUT" | "ADJUSTMENT" | "REFUND"
       upsell_status: "SENT" | "VIEWED" | "CONVERTED" | "EXPIRED"
       user_role: "CLIENT" | "RESI" | "LANDLORD" | "ADMIN"
       waitlist_status: "WAITING" | "CONTACTED" | "CONVERTED" | "EXPIRED"
@@ -2417,6 +3339,9 @@ export const Constants = {
         "COMPLETED",
         "CANCELED",
         "NO_SHOW",
+        "REQUESTED",
+        "CONFIRMED",
+        "CANCELLED",
       ],
       booking_type: ["RESIDENTIAL", "COMMON_AREA", "DEEP_CLEAN"],
       cleaning_frequency: ["DAILY", "WEEKLY", "BIWEEKLY", "MONTHLY"],
@@ -2460,6 +3385,7 @@ export const Constants = {
         "FEE",
         "LANDLORD_COMMISSION",
       ],
+      txn_type: ["SERVICE_PAYMENT", "FEE", "PAYOUT", "ADJUSTMENT", "REFUND"],
       upsell_status: ["SENT", "VIEWED", "CONVERTED", "EXPIRED"],
       user_role: ["CLIENT", "RESI", "LANDLORD", "ADMIN"],
       waitlist_status: ["WAITING", "CONTACTED", "CONVERTED", "EXPIRED"],
