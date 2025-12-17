@@ -1,65 +1,76 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Sparkles } from "lucide-react";
+import { Check, Building2 } from "lucide-react";
 
 const Splash = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-background flex flex-col items-center justify-center p-6">
-      <div className="max-w-2xl mx-auto text-center space-y-8 animate-fade-in">
-        {/* Logo/Brand */}
-        <div className="space-y-4">
-          <div className="w-20 h-20 mx-auto bg-primary rounded-3xl flex items-center justify-center shadow-lg">
-            <Sparkles className="w-10 h-10 text-primary-foreground" />
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
+      <div className="max-w-md mx-auto text-center space-y-6 animate-fade-in">
+        {/* Logo */}
+        <div className="space-y-6 mb-4">
+          <div className="w-[120px] h-[120px] mx-auto bg-primary rounded-3xl flex items-center justify-center shadow-lg">
+            <Building2 className="w-16 h-16 text-primary-foreground" />
           </div>
-          <h1 className="font-sora text-5xl md:text-6xl font-bold tracking-tight">
-            Residenz
+        </div>
+
+        {/* Headline */}
+        <div className="space-y-3">
+          <h1 className="font-sora text-[30px] font-bold text-foreground">
+            Bienvenido a Casa
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground font-medium">
-            Tu talento, tu dinero, tu tiempo
+          <p className="text-base text-muted-foreground">
+            Experimenta el estándar hotelero en tu propio apartamento.
           </p>
         </div>
 
-        {/* Value Props */}
-        <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto py-8">
-          <div className="space-y-2">
-            <div className="text-3xl font-bold text-primary">D+0</div>
-            <div className="text-sm text-muted-foreground">Pagos al instante</div>
+        {/* Value Props Card */}
+        <div className="bg-card rounded-lg border border-border p-4 shadow-sm space-y-3 text-left">
+          <div className="flex items-center gap-3">
+            <Check className="w-5 h-5 text-primary flex-shrink-0" />
+            <span className="text-sm text-foreground">Limpieza en 10 minutos</span>
           </div>
-          <div className="space-y-2">
-            <div className="text-3xl font-bold text-primary">100%</div>
-            <div className="text-sm text-muted-foreground">Confianza mutua</div>
+          <div className="flex items-center gap-3">
+            <Check className="w-5 h-5 text-primary flex-shrink-0" />
+            <span className="text-sm text-foreground">Housekeeper verificada</span>
           </div>
-          <div className="space-y-2">
-            <div className="text-3xl font-bold text-primary">0</div>
-            <div className="text-sm text-muted-foreground">Burocracia</div>
+          <div className="flex items-center gap-3">
+            <Check className="w-5 h-5 text-primary flex-shrink-0" />
+            <span className="text-sm text-foreground">Pago automático & seguro</span>
           </div>
         </div>
 
         {/* CTAs */}
-        <div className="space-y-4">
+        <div className="space-y-3 pt-4">
           <Button
             size="lg"
-            className="w-full max-w-sm text-lg h-14"
+            className="w-full h-12 text-base font-medium"
             onClick={() => navigate("/onboarding")}
           >
-            Comenzar
+            <span className="flex flex-col items-center">
+              <span>Comenzar</span>
+            </span>
           </Button>
+          <p className="text-xs text-muted-foreground/80">(Sin compromisos)</p>
+          
           <Button
-            variant="ghost"
-            size="lg"
-            className="w-full max-w-sm"
+            variant="link"
+            className="w-full text-accent hover:text-accent/80"
             onClick={() => navigate("/login")}
           >
-            Ya tengo cuenta
+            ¿Ya tienes cuenta? Iniciar sesión
           </Button>
         </div>
 
         {/* Footer */}
-        <p className="text-sm text-muted-foreground pt-8">
-          Al continuar, aceptas nuestros Términos y Condiciones
-        </p>
+        <div className="pt-4 border-t border-border">
+          <p className="text-xs text-muted-foreground">
+            <button className="hover:underline">Términos</button>
+            {" · "}
+            <button className="hover:underline">Privacidad</button>
+          </p>
+        </div>
       </div>
     </div>
   );
